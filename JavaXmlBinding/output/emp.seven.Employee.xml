@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<employee>
+    <name title="Mr">Joe Bloggs</name>
+    <age>35</age>
+    <salary>40000.0</salary>
+    <phoneNumberList>
+        <phoneNumber kind="home" prefix="028">90 1234</phoneNumber>
+        <phoneNumber kind="mobile" prefix="0779">73 5678</phoneNumber>
+    </phoneNumberList>
+</employee>

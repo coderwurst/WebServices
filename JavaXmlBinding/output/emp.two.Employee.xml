@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<employee>
+    <name title="Mr">Joe Bloggs</name>
+    <age>35</age>
+    <salary>40000.0</salary>
+</employee>

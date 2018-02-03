@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order buyerID="XYZ123" priority="2">
+    <Item>
+        <CostOfItem>3.4</CostOfItem>
+        <ProductCatalogCode>AB12</ProductCatalogCode>
+        <NumberRequired>12</NumberRequired>
+    </Item>
+    <Item>
+        <CostOfItem>5.6</CostOfItem>
+        <ProductCatalogCode>CD34</ProductCatalogCode>
+        <NumberRequired>34</NumberRequired>
+    </Item>
+    <Item>
+        <CostOfItem>7.8</CostOfItem>
+        <ProductCatalogCode>EF56</ProductCatalogCode>
+        <NumberRequired>56</NumberRequired>
+    </Item>
+</order>

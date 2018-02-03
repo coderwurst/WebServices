@@ -1,0 +1,36 @@
+<project name="Copying Demo" default="doAll" basedir=".">
+	<property name="build.src" value="..\src"/>
+	<property name="jaxb.input" value="..\schemas" />
+	<property name="jaxb.output.src" value="..\generated\src" />
+	<property name="jaxb.output.schemas" value="..\generated\schemas" />
+	<property name="jaxb.lib" value="..\lib" />
+	
+	<path id="jaxbClasspath">
+	  	<fileset dir="${jaxb.lib}" includes="*.jar" /> 
+	</path>
+
+	<target name="doAll" depends="runXjc,runSchemaGen"/>
+	
+	<target name="runXjc">
+		<taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+			<classpath refid="jaxbClasspath"/>
+		</taskdef>
+		<xjc schema="${jaxb.input}/employeeV1.xsd" destdir="${jaxb.output.src}" package="emp.one" />
+		<xjc schema="${jaxb.input}/employeeV2.xsd" destdir="${jaxb.output.src}" package="emp.two" />
+		<xjc schema="${jaxb.input}/employeeV3.xsd" destdir="${jaxb.output.src}" package="emp.three" />
+		<xjc schema="${jaxb.input}/employeeV4.xsd" destdir="${jaxb.output.src}" package="emp.four" />
+		<xjc schema="${jaxb.input}/employeeV5.xsd" destdir="${jaxb.output.src}" package="emp.five" />
+		<xjc schema="${jaxb.input}/employeeV6.xsd" destdir="${jaxb.output.src}" package="emp.six" />
+		<xjc schema="${jaxb.input}/employeeV7.xsd" destdir="${jaxb.output.src}" package="emp.seven" />
+	</target>
+	<target name="runSchemaGen">
+		<taskdef name="schemagen" classname="com.sun.tools.jxc.SchemaGenTask">
+			<classpath refid="jaxbClasspath"/>
+		</taskdef>
+		<schemagen srcdir="${build.src}" destdir="${jaxb.output.schemas}">
+			<include name="demos/jaxb/orders/Order.java"/>
+			<include name="demos/jaxb/orders/Item.java"/>
+			<classpath refid="jaxbClasspath"/>
+		</schemagen>
+	</target>
+</project>

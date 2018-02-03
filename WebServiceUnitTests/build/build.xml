@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	To run ANT buildfiles you need to have ANT_HOME and JAVA_HOME set
+	Also the bin directories inside ANT_HOME and JAVA_HOME need to be on your path
+-->
+<project name="Web Service Client Builder" default="createAllProxies" basedir=".">
+	<!-- Set up the directories used in the build -->
+	<property name="build.src" value="..\src"/>
+	<property name="build.generated.src" value="..\generated"/>
+	<property name="build.bin" value="..\bin"/>
+	<property name="build.lib" value="..\lib"/>
+	<!-- Set up a data type for the classpath -->
+	<path id="myClasspath">
+		<fileset dir="${build.lib}">
+        	<include name="*.jar"/>
+     	</fileset>
+		<pathelement location="${build.bin}"/>
+	</path>
+	<target name="cleanGeneratedSrc">
+		<delete includeEmptyDirs="true">
+			<fileset dir="${build.generated.src}" includes="**/*"/>
+		</delete>
+	</target>
+	<!-- Build all the Web Service Proxies -->
+	<target name="createAllProxies" depends="cleanGeneratedSrc">
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/maths1?wsdl"/>
+		</antcall>
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/maths2?wsdl"/>
+		</antcall>
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/maths3a?wsdl"/>
+		</antcall>
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/maths3b?wsdl"/>
+		</antcall>
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/maths3c?wsdl"/>
+		</antcall>
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/shop1?wsdl"/>
+		</antcall>
+		<antcall target="createProxy">
+			<param name="proxy.wsdl.url" value="http://localhost:8080/Java6WS/shop2?wsdl"/>
+		</antcall>
+	</target>
+	<target name="createProxy">
+		<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+			<classpath refid="myClasspath"/>
+		</taskdef>
+		<waitfor maxwait="60" maxwaitunit="second" checkevery="20">
+				<!-- Wait for tomcat to catch up -->
+		        <http url="${proxy.wsdl.url}"/>
+		</waitfor>
+		<wsimport verbose="true"
+				  extension="true"
+				  wsdl="${proxy.wsdl.url}"
+				  sourcedestdir="${build.generated.src}"
+				  destdir="${build.bin}">
+		</wsimport>
+	</target>
+</project>

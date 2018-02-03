@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order priority="1" buyerID="UVW456">
+    <Item>
+        <CostOfItem>12.3</CostOfItem>
+        <ProductCatalogCode>AB12</ProductCatalogCode>
+        <NumberRequired>120</NumberRequired>
+    </Item>
+    <Item>
+        <CostOfItem>45.6</CostOfItem>
+        <ProductCatalogCode>CD34</ProductCatalogCode>
+        <NumberRequired>130</NumberRequired>
+    </Item>
+    <Item>
+        <CostOfItem>78.9</CostOfItem>
+        <ProductCatalogCode>EF56</ProductCatalogCode>
+        <NumberRequired>140</NumberRequired>
+    </Item>
+</order>

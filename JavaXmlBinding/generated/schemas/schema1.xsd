@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="order" type="AnOrder"/>
+
+  <xs:complexType name="AnItem">
+    <xs:sequence>
+      <xs:element name="CostOfItem" type="xs:double"/>
+      <xs:element name="ProductCatalogCode" type="xs:string" minOccurs="0"/>
+      <xs:element name="NumberRequired" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="AnOrder">
+    <xs:sequence>
+      <xs:element name="Item" type="AnItem" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="buyerID" type="xs:string"/>
+    <xs:attribute name="priority" type="priority"/>
+  </xs:complexType>
+
+  <xs:simpleType name="priority">
+    <xs:restriction base="xs:int">
+      <xs:enumeration value="1"/>
+      <xs:enumeration value="2"/>
+      <xs:enumeration value="3"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+

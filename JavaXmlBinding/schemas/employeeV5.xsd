@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="employee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="name"/>
+				<xs:element name="age" type="ageType"/>
+				<xs:element name="salary" type="salaryType"/>
+			</xs:sequence>
+			<xs:attribute name="id" type="idType"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="idType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{3}[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ageType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="16"/>
+			<xs:maxInclusive value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="salaryType">
+		<xs:restriction base="xs:double">
+			<xs:minExclusive value="19999.99"/>
+			<xs:maxExclusive value="39999.99"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="name">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="title" type="titleType"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="titleType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Mr"/>
+			<xs:enumeration value="Mrs"/>
+			<xs:enumeration value="Miss"/>
+			<xs:enumeration value="Dr"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

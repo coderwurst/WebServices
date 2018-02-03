@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	To run ANT buildfiles you need to have ANT_HOME and JAVA_HOME set
+	Also the bin directories inside ANT_HOME and JAVA_HOME need to be on your path
+-->
+<project name="Web Archive Builder" default="deploy" basedir="..">
+	<!-- Set up the base directories for Containers -->
+	<property name="tomcat.base" value="/Applications/Servers/apache-tomcat-7.0.20"/>
+	<!-- Set up the name of the war file -->
+	<property name="webArchiveName" value="soapyws.war"/>
+	<!-- Set up the name of the Web Service implementation class -->
+	<property name="ws.impl" value="demos.ws.maths.Maths"/>
+	<!-- Set up the directories used in the build -->
+	<property name="build.src" value=".\source"/>
+	<property name="build.generated.src" value=".\generated"/>
+	<property name="build.bin" value=".\bin"/>
+	<property name="build.lib" value=".\lib"/>
+	<property name="build.wsdl" value=".\webapp\wsdl"/>
+	<property name="build.webapp.lib" value=".\webapp\WEB-INF\lib"/>
+	<property name="build.webapp.bin" value=".\webapp\WEB-INF\classes"/>
+	<!-- Set up the build deployment directory -->
+	<property name="build.ant.home" value=".\build"/>
+	<property name="build.ant.deploy" value="${build.ant.home}\deploy"/>
+	<!-- Set up the Tomcat deployment directory -->
+	<property name="tomcat.deploy" value="${tomcat.base}\webapps"/>
+	<!-- Set up a filepath data type for the classpath -->
+	<path id="myClasspath">
+		<fileset dir="${build.lib}">
+        	<include name="*.jar"/>
+     	</fileset>
+		<pathelement location="${build.bin}"/>
+		<pathelement location="${build.src}"/>
+	</path>
+	<!-- Build the Web Service -->
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${build.bin}" includes="**/*"/>
+			<fileset dir="${build.generated.src}" includes="**/*"/>
+			<fileset dir="${build.webapp.lib}" includes="**/*"/>
+			<fileset dir="${build.webapp.bin}" includes="**/*"/>
+		</delete>
+	</target>
+	<target name="compilePartOne" depends="clean">
+		<javac srcdir="${build.src}" destdir="${build.bin}">
+			<classpath refid="myClasspath"/>
+		</javac>
+	</target>
+	<target name="buildWebService" depends="compilePartOne">
+		<taskdef name="wsgen" classname="com.sun.tools.ws.ant.WsGen">
+			<classpath refid="myClasspath"/>
+		</taskdef>
+		<wsgen sei="${ws.impl}" destdir="${build.bin}" 
+			   sourcedestdir="${build.generated.src}" keep="true"
+			   verbose="true" protocol="soap1.1">
+			<classpath refid="myClasspath"/>  	
+	    </wsgen>
+	</target>
+	<!-- Use the javac task to compile the bean classes -->
+	<target name="compilePartTwo" depends="buildWebService">
+		<javac srcdir="${build.src}" destdir="${build.webapp.bin}">
+			<classpath refid="myClasspath"/>
+		</javac>
+		<javac srcdir="${build.generated.src}" destdir="${build.webapp.bin}">
+			<classpath refid="myClasspath"/>
+		</javac>
+	</target>
+	<!-- Use the jar task to build the archive -->
+	<target name="buildWebApp" depends="compilePartTwo">
+		<copy todir="${build.webapp.lib}">
+			<fileset dir="${build.lib}" includes="**/*"/>
+		</copy>
+		<jar destfile="${build.ant.deploy}\${webArchiveName}" basedir=".\webapp"/>
+	</target>
+	<!-- Copy the finished archive to the deployment directory -->
+	<target name="deploy" depends="buildWebApp">
+		<move file="${build.ant.deploy}\${webArchiveName}" todir="${tomcat.deploy}"/>
+	</target>
+</project>
